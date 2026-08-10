@@ -1,14 +1,13 @@
 {
-  "name": "console-automation-mcp",
+  "name": "console-automation-mcp-legacy",
   "version": "2.0.0",
-  "description": "Event-driven local and SSH job monitoring for Codex with token-free lifecycle waits",
-  "mcpName": "io.github.liyuchen0118/runbeacon",
+  "description": "Maintenance-only RunBeacon 2.x interactive console and protocol compatibility package",
+  "mcpName": "io.github.liyuchen0118/console-automation-mcp-legacy",
   "main": "dist/mcp/server.js",
   "type": "module",
   "bin": {
-    "console-automation-mcp": "./dist/mcp/server.js",
-    "mcp-console": "./dist/mcp/server.js",
-    "remote-job-monitor": "./dist/mcp/lifecycle-server.js"
+    "console-automation-mcp-legacy": "./dist/mcp/server.js",
+    "mcp-console": "./dist/mcp/server.js"
   },
   "scripts": {
     "build": "tsc",
@@ -23,7 +22,7 @@
     "test:protocols": "jest tests/integration/protocols --runInBand",
     "test:stress": "jest test/stress --runInBand",
     "test:stress:smoke": "node scripts/stress-smoke-test.mjs",
-    "test:all": "jest --runInBand",
+    "test:all": "jest src/tests tests/protocols tests/ErrorDetector.test.ts --runInBand",
     "test:ssh": "jest test/integration/ssh.test.ts",
     "test:ssh:smoke": "node scripts/ssh-smoke-test.mjs",
     "test:sessions": "jest test/integration/session-management.test.ts",
@@ -31,7 +30,7 @@
     "test:load": "jest test/stress/load.test.ts",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --maxWorkers=2",
+    "test:ci": "jest src/tests tests/protocols tests/ErrorDetector.test.ts --ci --runInBand",
     "test:mcp": "node scripts/mcp-smoke-test.mjs",
     "test:lifecycle:mcp": "node scripts/lifecycle-mcp-smoke-test.mjs",
     "test:lifecycle:daemon": "node scripts/lifecycle-daemon-smoke-test.mjs",
@@ -56,16 +55,24 @@
     "llm"
   ],
   "files": [
-    "dist",
-    ".codex-plugin",
-    ".mcp.json",
-    "hooks",
-    "skills",
-    "assets",
+    "dist/config",
+    "dist/core",
+    "dist/daemon",
+    "dist/lifecycle",
+    "dist/mcp",
+    "dist/monitoring",
+    "dist/patterns",
+    "dist/protocols",
+    "dist/templates",
+    "dist/testing",
+    "dist/types",
+    "dist/utils",
+    "docs",
     "README.md",
+    "SECURITY.md",
     "LICENSE"
   ],
-  "author": "ooples",
+  "author": "RunBeacon contributors",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
@@ -278,12 +285,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Liyuchen0118/RunBeacon.git"
+    "url": "git+https://github.com/Liyuchen0118/console-automation-mcp-legacy.git"
   },
   "bugs": {
-    "url": "https://github.com/Liyuchen0118/RunBeacon/issues"
+    "url": "https://github.com/Liyuchen0118/console-automation-mcp-legacy/issues"
   },
-  "homepage": "https://github.com/Liyuchen0118/RunBeacon#readme",
+  "homepage": "https://github.com/Liyuchen0118/console-automation-mcp-legacy#readme",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

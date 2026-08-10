@@ -1,4 +1,12 @@
-# RunBeacon
+# console-automation-mcp-legacy
+
+This repository preserves the RunBeacon 2.0.x interactive console, 40-tool MCP surface, and legacy protocol integrations. It is a maintenance-only compatibility line: only High/Critical security fixes are accepted for six months after RunBeacon 3.0 reaches Stable.
+
+New lifecycle, SSH Runner, dashboard, credential, and GitHub publishing development belongs in [RunBeacon](https://github.com/Liyuchen0118/RunBeacon). New installations should use `console-automation-mcp@3`; use this package only when migration is temporarily blocked by a removed console or protocol API.
+
+No `remote-job-monitor` Codex plugin is shipped from this repository, so installing the legacy npm package cannot replace the RunBeacon 3.0 plugin.
+
+## Legacy 2.0 behavior
 
 RunBeacon turns long-running local and SSH commands into tracked jobs for Codex. The Codex plugin keeps the stable ID `remote-job-monitor`: Codex starts a job once, calls `job_wait` once, and resumes when the resident daemon reports a terminal event. A live MCP Apps dashboard refreshes by calling the MCP server directly, so dashboard updates and intermediate status checks do not create model turns.
 
@@ -649,15 +657,9 @@ MIT License - see LICENSE file for details
 ## Support
 
 For issues, questions, or suggestions, please open an issue on GitHub:
-https://github.com/Liyuchen0118/RunBeacon/issues
+https://github.com/Liyuchen0118/console-automation-mcp-legacy/issues
 
-## Roadmap
+## Maintenance scope
 
-- [ ] Add support for terminal recording and playback
-- [ ] Implement session persistence and recovery
-- [ ] Add more error detection patterns for specific languages
-- [ ] Support for terminal multiplexing (tmux/screen integration)
-- [ ] Web-based terminal viewer
-- [ ] Session sharing and collaboration features
-- [ ] Performance profiling tools
+This line accepts only High/Critical security fixes during its six-month support window. Feature requests and compatibility improvements belong in RunBeacon 3.x.
 - [ ] Integration with popular CI/CD systems
