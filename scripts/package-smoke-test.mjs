@@ -10,18 +10,29 @@ const temporaryDirectory = fs.mkdtempSync(
   path.join(os.tmpdir(), 'console-automation-package-')
 );
 const installDirectory = path.join(temporaryDirectory, 'install');
+const manifest = JSON.parse(
+  fs.readFileSync(path.join(root, 'package.json'), 'utf8')
+);
+const npmEnvironment = {
+  ...process.env,
+  npm_config_cache: path.join(temporaryDirectory, 'npm-cache'),
+};
 
 const npmInvocation = (args) => {
   if (process.env.npm_execpath) {
     return spawnSync(process.execPath, [process.env.npm_execpath, ...args], {
       cwd: root,
       encoding: 'utf8',
+      env: npmEnvironment,
+      timeout: 5 * 60 * 1_000,
     });
   }
 
   return spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, {
     cwd: root,
     encoding: 'utf8',
+    env: npmEnvironment,
+    timeout: 5 * 60 * 1_000,
   });
 };
 
@@ -35,7 +46,7 @@ try {
   assert.equal(
     packed.status,
     0,
-    `npm pack failed:\n${packed.stdout}\n${packed.stderr}`
+    `npm pack failed${packed.error ? `: ${packed.error.message}` : ''}:\n${packed.stdout}\n${packed.stderr}`
   );
 
   const archive = fs
@@ -51,18 +62,22 @@ try {
     '--no-package-lock',
     '--omit=dev',
     '--omit=optional',
+    '--ignore-scripts',
+    '--no-audit',
+    '--no-fund',
+    '--registry=https://registry.npmjs.org',
     path.join(temporaryDirectory, archive),
   ]);
   assert.equal(
     installed.status,
     0,
-    `Production package install failed:\n${installed.stdout}\n${installed.stderr}`
+    `Production package install failed${installed.error ? `: ${installed.error.message}` : ''}:\n${installed.stdout}\n${installed.stderr}`
   );
 
   const packageRoot = path.join(
     installDirectory,
     'node_modules',
-    'console-automation-mcp'
+    manifest.name
   );
   const serverPath = path.join(packageRoot, 'dist', 'mcp', 'server.js');
   assert.ok(fs.existsSync(serverPath), 'Packed MCP entry point is missing');
