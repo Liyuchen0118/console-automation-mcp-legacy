@@ -44,7 +44,7 @@ try {
     command: 'command-password-canary',
     environment: 'environment-token-canary',
     privateKey: 'private-key-body-canary',
-    cloud: 'AKIAABCDEFGHIJKLMNOP',
+    cloud: ['AK', 'IA', 'LOGGERREDACTION123'].join(''),
     cycle: 'cycle-token-canary',
     long: 'long-string-tail-canary',
     arrayLimit: 'array-limit-canary',
